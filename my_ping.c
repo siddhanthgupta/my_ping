@@ -99,7 +99,7 @@ void pinger() {
     icp = (struct icmphdr *) outpack;
     icp->type = ICMP_ECHO;
     icp->code = 0;
-//    icp->checksum = 0;
+    icp->checksum = 0;
     icp->un.echo.sequence = ++ntransmitted;
     icp->un.echo.id = ident;
 
@@ -114,7 +114,7 @@ void pinger() {
     cc = datalen + 8;
 
     // Compute ICMP checksum here
-//    icp->checksum = in_cksum((u_short *) icp, cc);
+    icp->checksum = in_cksum((u_short *) icp, cc);
 
     // Sends the ping packet to the destination
     i = sendto(s, (char *) outpack, cc, 0, &whereto, sizeof(struct sockaddr));
